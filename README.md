@@ -76,23 +76,27 @@ There we specify the URL, token, Organization, default bucket and test the conne
 ## Expected Results
 
 Thanks to the middleware application data is now sent from the sensors to the influxDB. From here grafana can fetch information and display the result as following when configured corectly.
-![Alt Text]()
+![Alt Text](https://github.com/georges16/devoirdegeorges/blob/main/Capture%20d'%C3%A9cran_20230106_153054.png)
 
 ### The flux query used to fetch the two diagrams are the following:
 Temperature:
 
 ```
-from(bucket: "IoTBucket")
-    |> range(start: -1h)
-    |> filter(fn: (r) => r._measurement == "temperature" and r._field == "temperature")
-    |> yield(name: "_results")
+from(bucket: "charo")
+  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)
+  |> filter(fn: (r) =>
+    r._measurement == "humidity" and
+    r._field == "humidity"
+  )
 ```
 Humidity:
 ```
-from(bucket: "IoTBucket")
-    |> range(start: -1h)
-    |> filter(fn: (r) => r._measurement == "humidity" and r._field == "humidity")
-    |> yield(name: "_results")
+from(bucket: "charo")
+  |> range(start: v.timeRangeStart, stop:v.timeRangeStop)
+  |> filter(fn: (r) =>
+    r._measurement == "temperature" and
+    r._field == "temperature"
+  )
 ```
 
 Thresholds can be added when editing the Dashboard view under the threshold tab. For teperature I chose 25° and for the humidity view I chose 80%. Those values are hardcoded. Since the sensors are sending thresholds as well it would be possible to dynamically determine the threshold via the values sent from the sensor. However I could not figure out how to make a flux query that could make a dynamic threshold based on the values sent from the sensor.
