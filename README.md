@@ -98,13 +98,9 @@ from(bucket: "charo")
     r._field == "temperature"
   )
 ```
-
-Thresholds can be added when editing the Dashboard view under the threshold tab. For teperature I chose 25° and for the humidity view I chose 80%. Those values are hardcoded. Since the sensors are sending thresholds as well it would be possible to dynamically determine the threshold via the values sent from the sensor. However I could not figure out how to make a flux query that could make a dynamic threshold based on the values sent from the sensor.
-# Final Results 
-
 ## Run project
 
-- npm run servers 
+- npm run sensors
 - node app.js
 
 # LIEN UTILES
